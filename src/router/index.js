@@ -1,14 +1,31 @@
+/* eslint-disable implicit-arrow-linebreak */
 import Vue from 'vue';
 import VueRouter from 'vue-router';
-import Home from '../views/Home.vue';
 
 Vue.use(VueRouter);
 
 const routes = [
   {
     path: '/',
-    name: 'Home',
-    component: Home,
+    name: 'SignUp',
+    component: () => import(/* webpackChunkName: "sign-up" */ '../components/Auth/SignUp.vue'),
+  },
+  {
+    path: '/signIn',
+    name: 'SignIn',
+    component: () => import(/* webpackChunkName: "sign-in" */ '../components/Auth/SignIn.vue'),
+  },
+  {
+    path: '/forgotPassword',
+    name: 'ForgotPassword',
+    component: () =>
+      import(/* webpackChunkName: "sign-in" */ '../components/Auth/ForgotPassword.vue'),
+  },
+  {
+    path: '/resetPassword/:token',
+    name: 'ResetPassword',
+    component: () =>
+      import(/* webpackChunkName: "sign-in" */ '../components/Auth/ResetPassword.vue'),
   },
   {
     path: '/about',
