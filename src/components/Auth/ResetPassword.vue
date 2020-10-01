@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <div class="pixata-heading">Pixata</div>
-    <form class="form-container" @submit.prevent="forgotPassword()">
+    <form class="form-container" @submit.prevent="resetPassword()">
       <div class="quarter-circle"></div>
       <div class="heading">
         <div class="heading-signUp">Reset Password</div>
@@ -9,7 +9,12 @@
       <div>
         <div class="form-group">
           <label for="password">Password</label>
-          <input id="password" type="text" v-model="password" placeholder="example123" />
+          <input
+            id="password"
+            type="text"
+            v-model="password"
+            placeholder="example123"
+          />
         </div>
         <div class="form-group">
           <label for="confirmPassword">Confirm Password</label>
@@ -23,15 +28,16 @@
       </div>
 
       <div class="flex-col-center">
-        <button class="btn-submit" type="submit" :disabled="loadingState === true">
-          <div v-if="!loadingState">
-            Reset Password
-          </div>
+        <button class="btn-submit" type="submit" :disabled="loadingState">
+          <div v-if="!loadingState">Reset Password</div>
           <div v-else>
             <Loader />
           </div>
         </button>
-        <p class="text-center" v-if="!$store.state.auth.message.includes('successfully')">
+        <p
+          class="text-center"
+          v-if="!$store.state.auth.message.includes('successfully')"
+        >
           <router-link to="/">Back to Sign Up</router-link>
         </p>
         <p class="text-center" v-else>
@@ -63,17 +69,19 @@ export default {
     };
   },
   methods: {
-    async forgotPassword() {
+    resetPassword() {
       if (this.password === '' || this.confirmPassword === '') {
         this.$vToastify.error('Please check password or confirm password!');
-        return;
+      } else if (this.password !== this.confirmPassword) {
+        this.$vToastify.error('Password should match!');
+      } else {
+        const userData = {
+          password: this.password,
+          confirmPassword: this.confirmPassword,
+          token: this.$route.params.token,
+        };
+        this.$store.dispatch('resetPassword', userData);
       }
-      const userData = {
-        password: this.password,
-        confirmPassword: this.confirmPassword,
-        token: this.$route.params.token,
-      };
-      this.$store.dispatch('resetPassword', userData);
     },
   },
   computed: {

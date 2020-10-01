@@ -9,18 +9,27 @@
       <div>
         <div class="form-group">
           <label for="username">Username</label>
-          <input id="username" type="text" v-model="userName" placeholder="johndoe7" />
+          <input
+            :class="{ border }"
+            id="username"
+            type="text"
+            v-model.trim.lazy="userName"
+            placeholder="johndoe7"
+          />
         </div>
         <div class="form-group">
           <label for="password">Password</label>
-          <input id="password" type="password" v-model="password" placeholder="********" />
+          <input
+            id="password"
+            type="password"
+            v-model.trim.lazy="password"
+            placeholder="********"
+          />
         </div>
       </div>
       <div class="flex-col-center">
         <button class="btn-submit" type="submit" :disabled="loadingState">
-          <div v-if="!loadingState">
-            Sign In
-          </div>
+          <div v-if="!loadingState">Sign In</div>
           <div v-else>
             <Loader />
           </div>
@@ -58,12 +67,19 @@ export default {
     };
   },
   methods: {
-    async signIn() {
+    signIn() {
       if (this.userName === '' || this.password === '') {
         this.$vToastify.error('Username or password cannot be empty!');
         return;
       }
-      this.$store.dispatch('signIn', { username: this.userName, password: this.password });
+      if (this.password.length < 8) {
+        this.$vToastify.error('Password length must be at least 8 characters!');
+        return;
+      }
+      this.$store.dispatch('signIn', {
+        username: this.userName,
+        password: this.password,
+      });
     },
   },
   computed: {

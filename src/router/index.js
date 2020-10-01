@@ -28,6 +28,12 @@ const routes = [
       import(/* webpackChunkName: "sign-in" */ '../components/Auth/ResetPassword.vue'),
   },
   {
+    path: '/confirmEmail/:token',
+    name: 'ConfirmEmail',
+    component: () =>
+      import(/* webpackChunkName: "sign-in" */ '../components/Auth/ConfirmEmail.vue'),
+  },
+  {
     path: '/about',
     name: 'About',
     // route level code-splitting

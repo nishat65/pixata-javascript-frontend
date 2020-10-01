@@ -27,11 +27,35 @@ const store = {
     responseToken(state, payload) {
       state.token = payload;
     },
-    errorState(state) {
-      state.error = true;
+    errorState(state, payload) {
+      state.error = payload;
     },
   },
   actions: {
+    async signUp(context, userData) {
+      // eslint-disable-next-line object-curly-newline
+      const { firstname, lastname, username, email, password, confirmPassword } = userData.data;
+      context.commit('loading', true);
+      try {
+        const res = await axios.post(`${Constant.baseUrl}user/signUp`, {
+          firstname,
+          lastname,
+          email,
+          username,
+          password,
+          confirmPassword,
+        });
+        context.commit('loading', false);
+        context.commit('message', 'Sign up successfully! Confirmation link sent to your email.');
+        context.commit('responseToken', res.data.token);
+      } catch (error) {
+        context.commit('loading', false);
+        context.commit('errorState');
+        if (error.message.includes('401') || error.message.includes('400')) {
+          context.commit('message', 'Please check your data before submit!');
+        } else context.commit('message', 'Something went wrong!');
+      }
+    },
     async signIn(context, { username, password }) {
       context.commit('loading', true);
       try {
@@ -79,6 +103,17 @@ const store = {
         if (error.message.includes('400')) {
           context.commit('message', 'Token is invalid or expired!');
         } else context.commit('message', 'Something went wrong!');
+      }
+    },
+    async confirmEmail(context, token) {
+      context.commit('loading', true);
+      try {
+        context.commit('loading', false);
+        await axios.get(`${Constant.baseUrl}user/confirmEmail/${token}`);
+        context.commit('errorState', false);
+      } catch (error) {
+        context.commit('loading', false);
+        context.commit('errorState', true);
       }
     },
   },

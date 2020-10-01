@@ -9,23 +9,48 @@
       <div>
         <div class="form-group">
           <label for="first-name">First Name</label>
-          <input id="first-name" type="text" v-model="firstName" placeholder="John" />
+          <input
+            id="first-name"
+            type="text"
+            v-model="firstName"
+            placeholder="John"
+          />
         </div>
         <div class="form-group">
           <label for="last-name">Last Name</label>
-          <input id="last-name" type="text" v-model="lastName" placeholder="Doe" />
+          <input
+            id="last-name"
+            type="text"
+            v-model="lastName"
+            placeholder="Doe"
+          />
         </div>
         <div class="form-group">
           <label for="username">Username</label>
-          <input id="username" type="text" v-model="userName" placeholder="johndoe7" />
+          <input
+            id="username"
+            type="text"
+            v-model="userName"
+            placeholder="johndoe7"
+          />
         </div>
         <div class="form-group">
           <label for="email">Email</label>
-          <input id="email" type="email" v-model="email" placeholder="example@com" />
+          <input
+            id="email"
+            type="email"
+            v-model="email"
+            placeholder="example@com"
+          />
         </div>
         <div class="form-group">
           <label for="password">Password</label>
-          <input id="password" type="password" v-model="password" placeholder="********" />
+          <input
+            id="password"
+            type="password"
+            v-model="password"
+            placeholder="********"
+          />
         </div>
         <div class="form-group">
           <label for="confirm-password">Confirm Password</label>
@@ -38,7 +63,12 @@
         </div>
       </div>
       <div class="flex-col-center">
-        <button class="btn-submit" type="submit">Sign Up</button>
+        <button class="btn-submit" type="submit" :disabled="loadingState">
+          <div v-if="!loadingState">Sign In</div>
+          <div v-else>
+            <Loader />
+          </div>
+        </button>
         <p class="text-center">
           Already have an account?
           <router-link to="/signIn">SIGN IN</router-link>
@@ -48,13 +78,14 @@
   </div>
 </template>
 <script>
-// import Loader from '@/components/Loader/Loader.vue';
+/* eslint-disable operator-linebreak */
+import Loader from '@/components/Loader/Loader.vue';
 
 export default {
   name: 'SignUp',
-  // components: {
-  //     Loader,
-  // },
+  components: {
+    Loader,
+  },
   data() {
     return {
       firstName: '',
@@ -67,7 +98,37 @@ export default {
   },
   methods: {
     signUp() {
-      console.log(this.userName, this.password);
+      if (
+        this.firstName === '' ||
+        this.lastName === '' ||
+        this.userName === '' ||
+        this.email === '' ||
+        this.password === '' ||
+        this.confirmPassword === ''
+      ) {
+        this.$vToastify.error('Please fill all the details!');
+      } else if (this.password.length < 8) {
+        this.$vToastify.error('Password length must be at least 8 characters!');
+      } else if (this.password !== this.confirmPassword) {
+        this.$vToastify.error('Password should match!');
+      } else {
+        const data = {
+          firstname: this.firstName,
+          lastname: this.lastName,
+          username: this.userName,
+          email: this.email,
+          password: this.password,
+          confirmPassword: this.confirmPassword,
+        };
+        this.$store.dispatch('signUp', {
+          data,
+        });
+      }
+    },
+  },
+  computed: {
+    loadingState() {
+      return this.$store.state.auth.loading;
     },
   },
 };
@@ -189,10 +250,15 @@ export default {
   cursor: pointer;
   outline: none;
 
-  &:hover {
-    background: white;
-    color: #268c83;
-    border: 1px solid #268c83;
+  &:disabled {
+    background: gray;
+    cursor: not-allowed;
   }
+
+  // &:hover {
+  //   background: white;
+  //   color: #268c83;
+  //   border: 1px solid #268c83;
+  // }
 }
 </style>

@@ -9,14 +9,21 @@
       <div>
         <div class="form-group">
           <label for="email">Email</label>
-          <input id="email" type="email" v-model="email" placeholder="example@com" />
+          <input
+            id="email"
+            type="email"
+            v-model="email"
+            placeholder="example@com"
+          />
         </div>
       </div>
       <div class="flex-col-center">
-        <button class="btn-submit" type="submit" :disabled="loadingState === true">
-          <div v-if="!loadingState">
-            Submit
-          </div>
+        <button
+          class="btn-submit"
+          type="submit"
+          :disabled="loadingState === true"
+        >
+          <div v-if="!loadingState">Submit</div>
           <div v-else>
             <Loader />
           </div>
@@ -43,7 +50,7 @@ export default {
     };
   },
   methods: {
-    async forgotPassword() {
+    forgotPassword() {
       if (this.email === '') {
         this.$vToastify.error('Please provide an email!');
         return;
