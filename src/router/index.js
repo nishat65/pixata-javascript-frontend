@@ -1,8 +1,9 @@
+/* eslint-disable arrow-parens */
 /* eslint-disable implicit-arrow-linebreak */
 import Vue from 'vue';
 import VueRouter from 'vue-router';
 
-// import authStore from '../store/auth/auth';
+import LocalStorage from '../utils/localStoragePersist';
 
 Vue.use(VueRouter);
 
@@ -40,11 +41,8 @@ const routes = [
     path: '/about',
     name: 'About',
     meta: {
-      requireAuth: true,
+      requiresAuth: true,
     },
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
     component: () => import(/* webpackChunkName: "about" */ '../views/About.vue'),
   },
 ];
@@ -55,15 +53,16 @@ const router = new VueRouter({
   routes,
 });
 
-// router.beforeEach((to, from, next) => {
-//   // eslint-disable-next-line arrow-parens
-//   if (!to.matched.some(record => record.meta.requiresAuth || !authStore.getters.verifiedToken)) {
-//     next({
-//       path: '/login',
-//     });
-//   } else {
-//     next();
-//   }
-// });
+router.beforeEach((to, from, next) => {
+  const getToken = LocalStorage.getItemLocalStorage('token');
+  const requiresAuth = to.matched.some(record => record.meta.requiresAuth);
+  if (requiresAuth && !getToken) {
+    next('/signIn');
+  } else if (to.path === '/signIn' && getToken) {
+    next();
+  } else {
+    next();
+  }
+});
 
 export default router;

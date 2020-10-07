@@ -1,4 +1,5 @@
 import Vue from 'vue';
+import LocalStorage from '../../../utils/localStoragePersist';
 
 export const loading = (state, payload) => {
   state.loading = payload;
@@ -16,6 +17,8 @@ export const message = (state, payload) => {
 };
 
 export const responseToken = (state, payload) => {
+  const persistStorage = new LocalStorage('token', payload);
+  persistStorage.saveItemLocalStorage();
   state.token = payload;
 };
 
