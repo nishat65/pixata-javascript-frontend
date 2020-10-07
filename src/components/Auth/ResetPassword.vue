@@ -9,12 +9,7 @@
       <div>
         <div class="form-group">
           <label for="password">Password</label>
-          <input
-            id="password"
-            type="text"
-            v-model="password"
-            placeholder="example123"
-          />
+          <input id="password" type="text" v-model="password" placeholder="example123" />
         </div>
         <div class="form-group">
           <label for="confirmPassword">Confirm Password</label>
@@ -34,10 +29,7 @@
             <Loader />
           </div>
         </button>
-        <p
-          class="text-center"
-          v-if="!$store.state.auth.message.includes('successfully')"
-        >
+        <p class="text-center" v-if="!$store.state.auth.message.includes('successfully')">
           <router-link to="/">Back to Sign Up</router-link>
         </p>
         <p class="text-center" v-else>
@@ -115,7 +107,7 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  // justify-content: center;
   height: 100vh;
   background: linear-gradient(45deg, #ffffff, #c1dedc);
 }

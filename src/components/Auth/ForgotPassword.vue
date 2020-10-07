@@ -9,20 +9,11 @@
       <div>
         <div class="form-group">
           <label for="email">Email</label>
-          <input
-            id="email"
-            type="email"
-            v-model="email"
-            placeholder="example@com"
-          />
+          <input id="email" type="email" v-model="email" placeholder="example@com" />
         </div>
       </div>
       <div class="flex-col-center">
-        <button
-          class="btn-submit"
-          type="submit"
-          :disabled="loadingState === true"
-        >
+        <button class="btn-submit" type="submit" :disabled="loadingState === true">
           <div v-if="!loadingState">Submit</div>
           <div v-else>
             <Loader />
@@ -89,7 +80,7 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  // justify-content: center;
   height: 100vh;
   background: linear-gradient(45deg, #ffffff, #c1dedc);
 }

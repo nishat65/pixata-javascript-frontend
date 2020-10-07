@@ -9,12 +9,7 @@
       <div>
         <div class="form-group">
           <label for="username">Username</label>
-          <input
-            id="username"
-            type="text"
-            v-model.trim.lazy="userName"
-            placeholder="johndoe7"
-          />
+          <input id="username" type="text" v-model.trim.lazy="userName" placeholder="johndoe7" />
         </div>
         <div class="form-group">
           <label for="password">Password</label>
@@ -112,7 +107,7 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  // justify-content: center;
   height: 100vh;
   background: linear-gradient(45deg, #ffffff, #c1dedc);
 }

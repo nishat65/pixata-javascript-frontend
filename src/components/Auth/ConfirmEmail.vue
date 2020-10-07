@@ -44,7 +44,7 @@ export default {
   height: 100vh;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  // justify-content: center;
   background: linear-gradient(45deg, #ffffff, #c1dedc);
 
   p {

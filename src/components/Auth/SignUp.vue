@@ -9,48 +9,23 @@
       <div>
         <div class="form-group">
           <label for="first-name">First Name</label>
-          <input
-            id="first-name"
-            type="text"
-            v-model="firstName"
-            placeholder="John"
-          />
+          <input id="first-name" type="text" v-model="firstName" placeholder="John" />
         </div>
         <div class="form-group">
           <label for="last-name">Last Name</label>
-          <input
-            id="last-name"
-            type="text"
-            v-model="lastName"
-            placeholder="Doe"
-          />
+          <input id="last-name" type="text" v-model="lastName" placeholder="Doe" />
         </div>
         <div class="form-group">
           <label for="username">Username</label>
-          <input
-            id="username"
-            type="text"
-            v-model="userName"
-            placeholder="johndoe7"
-          />
+          <input id="username" type="text" v-model="userName" placeholder="johndoe7" />
         </div>
         <div class="form-group">
           <label for="email">Email</label>
-          <input
-            id="email"
-            type="email"
-            v-model="email"
-            placeholder="example@com"
-          />
+          <input id="email" type="email" v-model="email" placeholder="example@com" />
         </div>
         <div class="form-group">
           <label for="password">Password</label>
-          <input
-            id="password"
-            type="password"
-            v-model="password"
-            placeholder="********"
-          />
+          <input id="password" type="password" v-model="password" placeholder="********" />
         </div>
         <div class="form-group">
           <label for="confirm-password">Confirm Password</label>
@@ -157,7 +132,7 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  // justify-content: center;
   height: 100vh;
   background: linear-gradient(45deg, #ffffff, #c1dedc);
 }
