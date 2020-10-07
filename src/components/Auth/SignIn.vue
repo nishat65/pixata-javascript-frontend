@@ -10,7 +10,6 @@
         <div class="form-group">
           <label for="username">Username</label>
           <input
-            :class="{ border }"
             id="username"
             type="text"
             v-model.trim.lazy="userName"
