@@ -43,6 +43,11 @@ const routes = [
     component: () => import(/* webpackChunkName: "Post" */ '../components/Post/Post.vue'),
   },
   {
+    path: '/posts',
+    name: 'Posts',
+    component: () => import(/* webpackChunkName: "Post" */ '../components/Post/Posts.vue'),
+  },
+  {
     path: '/about',
     name: 'About',
     meta: {

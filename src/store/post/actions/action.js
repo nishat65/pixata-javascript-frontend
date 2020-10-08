@@ -13,6 +13,15 @@ export const getMyPosts = async ({ commit }) => {
   }
 };
 
-export const getAllPost = async ({ commit }) => {
+export const getAllPosts = async ({ commit }) => {
   commit('loading', true);
+  try {
+    const fetch = new FetchApi('posts/');
+    const myPost = await fetch.getAllApi();
+    commit('getPosts', myPost.data.data.posts);
+    commit('loading', false);
+  } catch (error) {
+    commit('loading', false);
+    commit('errorState', error);
+  }
 };

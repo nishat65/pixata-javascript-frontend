@@ -14,7 +14,7 @@ const store = {
   },
   actions: {
     getMyPosts: actions.getMyPosts,
-    getAllPosts: actions.getAllPost,
+    getAllPosts: actions.getAllPosts,
   },
 };
 
