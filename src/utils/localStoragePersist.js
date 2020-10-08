@@ -13,7 +13,7 @@ class LocalStorage {
   }
 
   static removeItemLocalStorage(key) {
-    if (this.key === key) localStorage.removeItem(key);
+    localStorage.removeItem(key);
   }
 
   // eslint-disable-next-line class-methods-use-this

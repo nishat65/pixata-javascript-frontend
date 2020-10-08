@@ -1,1 +1,18 @@
-// import FetchApi from '../../../utils/fetchApi';
+import FetchApi from '../../../utils/fetchApi';
+
+export const getMyPosts = async ({ commit }) => {
+  commit('loading', true);
+  try {
+    const fetch = new FetchApi('posts/me');
+    const myPost = await fetch.getAllApi();
+    commit('getPosts', myPost.data.data.post);
+    commit('loading', false);
+  } catch (error) {
+    commit('loading', false);
+    commit('errorState', error);
+  }
+};
+
+export const getAllPost = async ({ commit }) => {
+  commit('loading', true);
+};

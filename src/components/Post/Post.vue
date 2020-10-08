@@ -4,19 +4,19 @@
       <div class="pixata-heading">Pixata</div>
       <div class="profile-container">
         <img
-          :src="`http://localhost:8000/img/users/${myData.photo}`"
+          :src="`${staticUrl}users/${myData.photo}`"
           :alt="myData.photo"
           class="nav-profile-image"
         />
         <div class="nav-profile-name">{{ myData.username }}</div>
-        <button class="sign-out-btn">Sign out</button>
+        <button @click="signOut()" class="sign-out-btn">Sign out</button>
       </div>
     </nav>
-    <div class="flex-col-center">
+    <div class="flex-col-center" v-if="!load">
       <div class="card" v-for="(post, index) in myPosts" :key="index">
         <div class="card-image-content" style="display: flex; padding: 8px">
           <img
-            :src="`http://localhost:8000/img/users/${post.user.photo}`"
+            :src="`${staticUrl}users/${post.user.photo}`"
             :alt="post.user.photo"
             class="container-profile-image"
           />
@@ -24,7 +24,7 @@
         </div>
         <div>
           <img
-            :src="`http://localhost:8000/img/posts/${post.photo}`"
+            :src="`${staticUrl}posts/${post.photo}`"
             :alt="post.photo"
             class="container-post-image"
           />
@@ -51,7 +51,7 @@
         >
           <div class="flex-center">
             <img
-              :src="`http://localhost:8000/img/users/${review.user.photo}`"
+              :src="`${staticUrl}users/${review.user.photo}`"
               :alt="review.user.photo"
               class="review-image-content"
             />
@@ -66,31 +66,54 @@
         </div>
       </div>
     </div>
+    <div v-else>
+      <Loader />
+    </div>
   </div>
 </template>
 
 <script>
 import axios from 'axios';
+import { mapActions, mapState } from 'vuex';
+
+import Loader from '../Loader/MediumLoader.vue';
 import Constant from '../../constant/Constant';
+import LocalStorage from '../../utils/localStoragePersist';
 
 export default {
   name: 'Post',
+  components: {
+    Loader,
+  },
   data() {
     return {
-      myPosts: [],
       myData: {},
     };
   },
+  methods: {
+    ...mapActions({ getMyPost: 'getMyPosts' }),
+    signOut() {
+      LocalStorage.removeItemLocalStorage('token');
+      this.$router.push('/signIn');
+    },
+  },
   async created() {
     try {
+      this.getMyPost();
       const usr = await axios.get(`${Constant.baseUrl}user/me`);
-      const res = await axios.get(`${Constant.baseUrl}posts/me`);
-      this.myPosts = [...res.data.data.post];
       this.myData = { ...usr.data.data.user };
-      console.log(this.myData);
     } catch (err) {
       console.log(err);
     }
+  },
+  computed: {
+    ...mapState({
+      load: (state) => state.post.loading,
+      myPosts: (state) => state.post.posts,
+    }),
+    staticUrl() {
+      return Constant.staticUrl;
+    },
   },
 };
 </script>
@@ -160,7 +183,7 @@ export default {
 
 .card {
   margin: 2rem 0;
-  height: 600px;
+  // height: 600px;
   width: 600px;
   border: 1px solid #969595;
   box-shadow: 3px 2px 5px 1px #c5c5c5;
@@ -184,7 +207,7 @@ export default {
 
 .review-box {
   margin: 0.5rem;
-  background: #eeeeee54;
+  background: #499e9721;
   padding: 0.2rem 1rem;
   width: 90%;
 }

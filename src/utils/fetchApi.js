@@ -6,6 +6,7 @@ class FetchApi {
   constructor(endPoint) {
     this.url = Constant.baseUrl;
     this.endPoint = endPoint;
+    this.static = Constant.staticUrl;
   }
 
   async getAllApi() {
