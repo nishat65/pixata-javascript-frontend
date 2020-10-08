@@ -2,10 +2,14 @@
 import Vue from 'vue';
 import VueToastify from 'vue-toastify';
 import Vuelidate from 'vuelidate';
+import axios from 'axios';
 
 import App from './App.vue';
 import router from './router';
 import store from './store';
+import LocalStorage from './utils/localStoragePersist';
+
+axios.defaults.headers.common.Authorization = `Bearer ${LocalStorage.getItemLocalStorage('token')}`;
 
 const settings = {
   position: 'top-right',

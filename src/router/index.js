@@ -38,12 +38,22 @@ const routes = [
       import(/* webpackChunkName: "ConfirmEmail" */ '../components/Auth/ConfirmEmail.vue'),
   },
   {
+    path: '/post',
+    name: 'Post',
+    component: () => import(/* webpackChunkName: "Post" */ '../components/Post/Post.vue'),
+  },
+  {
     path: '/about',
     name: 'About',
     meta: {
       requiresAuth: true,
     },
     component: () => import(/* webpackChunkName: "about" */ '../views/About.vue'),
+  },
+  {
+    path: '/:notFound(.*)',
+    name: 'NotFound',
+    component: () => import(/* webpackChunkName: "NotFound" */ '../views/Error/NotFound.vue'),
   },
 ];
 
