@@ -40,10 +40,10 @@ class FetchApi {
     return patchRes;
   }
 
-  async deleteApi(params, token) {
+  async deleteApi(params) {
     const deleteRes = await axios({
       method: 'delete',
-      url: `${this.url}${this.endPoint}/${token}`,
+      url: `${this.url}${this.endPoint}/${params}`,
     });
     return deleteRes;
   }

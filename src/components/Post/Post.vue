@@ -1,7 +1,9 @@
 <template>
   <div>
     <nav class="nav-bar">
-      <div class="pixata-heading">Pixata</div>
+      <router-link class="pixata-heading-link" :to="{ name: 'Posts' }">
+        <div class="pixata-heading">Pixata</div>
+      </router-link>
       <div class="profile-container">
         <img
           :src="`${staticUrl}users/${myData.photo}`"
@@ -9,6 +11,9 @@
           class="nav-profile-image"
         />
         <div class="nav-profile-name">{{ myData.username }}</div>
+        <router-link style="width: 20px; color: black" to="/settings"
+          ><i class="fas fa-cog"></i
+        ></router-link>
         <button @click="signOut()" class="sign-out-btn">Sign out</button>
       </div>
     </nav>
@@ -139,6 +144,11 @@ export default {
   box-shadow: 1px 1px 1px #eee;
 }
 
+.pixata-heading-link {
+  text-decoration: none;
+  color: black;
+}
+
 .pixata-heading {
   padding: 0.8rem;
   font-size: 2rem;
@@ -166,9 +176,8 @@ export default {
   width: 6rem;
   padding: 13px;
   margin: 0 1.4rem;
-  background: #268c83d6;
+  background: #268c839e;
   border: none;
-  border-radius: 15px;
   font-size: 0.9rem;
   outline: none;
   color: white;

@@ -8,7 +8,12 @@
           :alt="myData.photo"
           class="nav-profile-image"
         />
-        <div class="nav-profile-name">{{ myData.username }}</div>
+        <router-link class="nav-profile-name" :to="{ name: 'Post' }">
+          <div>{{ myData.username }}</div>
+        </router-link>
+        <router-link style="width: 20px; color: black" to="/settings"
+          ><i class="fas fa-cog"></i
+        ></router-link>
         <button @click="signOut()" class="sign-out-btn">Sign out</button>
       </div>
     </nav>
@@ -31,7 +36,7 @@
         </div>
         <div style="margin: 0.5rem">
           <div class="margin-5-0">
-            {{ `${post.avgRatings} stars` }}
+            {{ `${roundToOnePlace(post.avgRatings)} stars` }}
           </div>
           <div class="margin-5-0">{{ post.description }}</div>
           <div class="margin-5-0" style="color: blue">
@@ -43,7 +48,26 @@
             }}
           </div>
         </div>
-        <h3 style="margin: 0 10px">Comments</h3>
+
+        <h3 style="margin: 0 10px">Post comment</h3>
+        <div class="comment-container">
+          <input v-model="rating" class="comment-star" type="text" />
+          <textarea
+            v-model="comment"
+            class="comment-txt-box"
+            placeholder="Comment"
+          ></textarea>
+          <button
+            @click="submitPost(post._id)"
+            class="comment-post-btn"
+            :disabled="reviewLoading"
+          >
+            <div v-if="!reviewLoading">Post</div>
+            <div v-else>
+              <MiniLoader />
+            </div>
+          </button>
+        </div>
         <div
           class="review-box"
           v-for="(review, index) in post.reviews"
@@ -62,6 +86,14 @@
               {{ `${review.rating} stars` }}
             </div>
             <div class="margin-5-0">{{ review.comments }}</div>
+            <div class="icons-card">
+              <i
+                style="cursor: pointer; color: #f75050"
+                class="far fa-trash-alt"
+                @click="delReview(review._id)"
+              ></i>
+              <!-- <i class="fas fa-pen-alt"></i> -->
+            </div>
           </div>
         </div>
       </div>
@@ -76,6 +108,7 @@
 import axios from 'axios';
 import { mapActions, mapState } from 'vuex';
 
+import MiniLoader from '../Loader/Loader.vue';
 import Loader from '../Loader/MediumLoader.vue';
 import Constant from '../../constant/Constant';
 import LocalStorage from '../../utils/localStoragePersist';
@@ -84,17 +117,35 @@ export default {
   name: 'Post',
   components: {
     Loader,
+    MiniLoader,
   },
   data() {
     return {
       myData: {},
+      comment: '',
+      rating: '',
     };
   },
   methods: {
-    ...mapActions({ getAllPosts: 'getAllPosts' }),
+    ...mapActions({
+      getAllPosts: 'getAllPosts',
+      postReview: 'postReview',
+      deleteReview: 'deleteReview',
+    }),
     signOut() {
       LocalStorage.removeItemLocalStorage('token');
       this.$router.push('/signIn');
+    },
+    submitPost(post) {
+      if (+this.rating > 5 || +this.rating < 1) return;
+      const review = { post, rating: +this.rating, comments: this.comment };
+      this.postReview(review);
+    },
+    delReview(id) {
+      this.deleteReview(id);
+    },
+    roundToOnePlace(num) {
+      return +num.toFixed(1);
     },
   },
   async created() {
@@ -110,6 +161,7 @@ export default {
     ...mapState({
       load: (state) => state.post.loading,
       posts: (state) => state.post.posts,
+      reviewLoading: (state) => state.review.reviewLoading,
     }),
     staticUrl() {
       return Constant.staticUrl;
@@ -145,6 +197,40 @@ export default {
   font-family: 'Dancing Script', cursive;
 }
 
+.comment-container {
+  margin: 4px 10px;
+  display: flex;
+  align-items: center;
+
+  .comment-star {
+    width: 30px;
+    height: 50px;
+    outline: none;
+    border: 1px solid #499e97;
+  }
+
+  .comment-txt-box {
+    margin: 8px;
+    height: 50px;
+    width: 430px;
+    resize: none;
+    padding: 5px;
+    outline: none;
+    border: 1px solid #499e97;
+  }
+
+  .comment-post-btn {
+    width: 60px;
+    border: none;
+    padding: 8px;
+    background: #499e97;
+    color: #fff;
+    height: 50px;
+    outline: none;
+    cursor: pointer;
+  }
+}
+
 .profile-container {
   width: 25%;
   display: flex;
@@ -158,6 +244,8 @@ export default {
 }
 
 .nav-profile-name {
+  text-decoration: none;
+  color: black;
   width: 25%;
   margin: 0 12px;
 }
@@ -166,9 +254,8 @@ export default {
   width: 6rem;
   padding: 13px;
   margin: 0 1.4rem;
-  background: #268c83d6;
+  background: #268c839e;
   border: none;
-  border-radius: 15px;
   font-size: 0.9rem;
   outline: none;
   color: white;
@@ -210,6 +297,12 @@ export default {
   background: #499e9721;
   padding: 0.2rem 1rem;
   width: 90%;
+  position: relative;
+
+  .icons-card {
+    transform: translateX(95%);
+    position: absolute;
+  }
 }
 
 .review-image-content {

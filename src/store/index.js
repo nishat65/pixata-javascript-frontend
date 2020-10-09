@@ -3,7 +3,7 @@ import Vuex from 'vuex';
 
 import auth from './auth/auth';
 import post from './post/post';
-// import forgotPassword from './auth/forgotPassword';
+import review from './review/review';
 
 Vue.use(Vuex);
 
@@ -14,5 +14,6 @@ export default new Vuex.Store({
   modules: {
     auth,
     post,
+    review,
   },
 });

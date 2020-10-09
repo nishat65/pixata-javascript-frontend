@@ -48,6 +48,11 @@ const routes = [
     component: () => import(/* webpackChunkName: "Post" */ '../components/Post/Posts.vue'),
   },
   {
+    path: '/settings',
+    name: 'Settings',
+    component: () => import(/* webpackChunkName: "Post" */ '../components/User/Settings.vue'),
+  },
+  {
     path: '/about',
     name: 'About',
     meta: {
