@@ -22,7 +22,7 @@
         <button
           v-for="tab in tabs"
           :key="tab"
-          @click="selected = tab"
+          @click="selected = tab.split(' ').join('')"
           :class="['tab-btn', { active: selected === tab }]"
         >
           {{ tab }}
@@ -38,7 +38,6 @@
 <script>
 import axios from 'axios';
 
-import GetUser from './GetUser.vue';
 import UpdateProfile from './UpdateProfile.vue';
 import UpdatePassword from './UpdatePassword.vue';
 import Constant from '../../constant/Constant';
@@ -47,14 +46,13 @@ import LocalStorage from '../../utils/localStoragePersist';
 export default {
   name: 'Settings',
   components: {
-    GetUser,
     UpdateProfile,
     UpdatePassword,
   },
   data() {
     return {
-      tabs: ['GetUser', 'UpdateProfile', 'UpdatePassword'],
-      selected: 'GetUser',
+      tabs: ['Update Profile', 'Update Password'],
+      selected: 'UpdateProfile',
       myData: {},
     };
   },

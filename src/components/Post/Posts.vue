@@ -18,7 +18,7 @@
       </div>
     </nav>
     <div class="flex-col-center" v-if="!load">
-      <div class="card" v-for="(post, index) in posts" :key="index">
+      <div class="card" v-for="(post,postIndex) in posts" :key="post._id">
         <div class="card-image-content" style="display: flex; padding: 8px">
           <img
             :src="`${staticUrl}users/${post.user.photo}`"
@@ -50,15 +50,17 @@
         </div>
 
         <h3 style="margin: 0 10px">Post comment</h3>
-        <div class="comment-container">
-          <input v-model="rating" class="comment-star" type="text" />
+        <div
+          class="comment-container"
+        >
+          <input v-model="ratingBox[postIndex]" class="comment-star" type="text" />
           <textarea
-            v-model="comment"
+            v-model="commentBox[postIndex]"
             class="comment-txt-box"
             placeholder="Comment"
           ></textarea>
           <button
-            @click="submitPost(post._id)"
+            @click="submitPost(post._id, postIndex)"
             class="comment-post-btn"
             :disabled="reviewLoading"
           >
@@ -70,8 +72,8 @@
         </div>
         <div
           class="review-box"
-          v-for="(review, index) in post.reviews"
-          :key="index"
+          v-for="review in post.reviews"
+          :key="review._id"
         >
           <div class="flex-center">
             <img
@@ -86,7 +88,7 @@
               {{ `${review.rating} stars` }}
             </div>
             <div class="margin-5-0">{{ review.comments }}</div>
-            <div class="icons-card">
+            <div v-show="myData._id === review.user._id" class="icons-card">
               <i
                 style="cursor: pointer; color: #f75050"
                 class="far fa-trash-alt"
@@ -105,13 +107,13 @@
 </template>
 
 <script>
-import axios from 'axios';
 import { mapActions, mapState } from 'vuex';
 
 import MiniLoader from '../Loader/Loader.vue';
 import Loader from '../Loader/MediumLoader.vue';
 import Constant from '../../constant/Constant';
 import LocalStorage from '../../utils/localStoragePersist';
+import { findByIndex } from '../../utils/factoryFunctions';
 
 export default {
   name: 'Post',
@@ -121,9 +123,8 @@ export default {
   },
   data() {
     return {
-      myData: {},
-      comment: '',
-      rating: '',
+      commentBox: [],
+      ratingBox: [],
     };
   },
   methods: {
@@ -131,14 +132,16 @@ export default {
       getAllPosts: 'getAllPosts',
       postReview: 'postReview',
       deleteReview: 'deleteReview',
+      getMyData: 'getMyData',
     }),
     signOut() {
       LocalStorage.removeItemLocalStorage('token');
       this.$router.push('/signIn');
     },
-    submitPost(post) {
-      if (+this.rating > 5 || +this.rating < 1) return;
-      const review = { post, rating: +this.rating, comments: this.comment };
+    submitPost(post, postIndex) {
+      const comments = findByIndex(this.commentBox, postIndex);
+      const ratings = findByIndex(this.ratingBox, postIndex);
+      const review = { post, rating: +ratings, comments };
       this.postReview(review);
     },
     delReview(id) {
@@ -149,19 +152,15 @@ export default {
     },
   },
   async created() {
-    try {
-      this.getAllPosts();
-      const usr = await axios.get(`${Constant.baseUrl}user/me`);
-      this.myData = { ...usr.data.data.user };
-    } catch (err) {
-      console.log(err);
-    }
+    this.getAllPosts();
+    this.getMyData();
   },
   computed: {
     ...mapState({
       load: (state) => state.post.loading,
       posts: (state) => state.post.posts,
       reviewLoading: (state) => state.review.reviewLoading,
+      myData: (state) => state.user.myData,
     }),
     staticUrl() {
       return Constant.staticUrl;
@@ -228,6 +227,11 @@ export default {
     height: 50px;
     outline: none;
     cursor: pointer;
+
+    &:disabled {
+    background: gray;
+    cursor: not-allowed;
+  }
   }
 }
 

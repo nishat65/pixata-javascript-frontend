@@ -17,8 +17,17 @@
         <button @click="signOut()" class="sign-out-btn">Sign out</button>
       </div>
     </nav>
+    <div>
+      <GetUser
+        :photo="myData.photo"
+        :email="myData.email"
+        :userName="myData.username"
+        :firstName="myData.firstname"
+        :lastName="myData.lastname"
+      />
+    </div>
     <div class="flex-col-center" v-if="!load">
-      <div class="card" v-for="(post, index) in myPosts" :key="index">
+      <div class="card" v-for="(post, postIndex) in myPosts" :key="postIndex">
         <div class="card-image-content" style="display: flex; padding: 8px">
           <img
             :src="`${staticUrl}users/${post.user.photo}`"
@@ -36,7 +45,7 @@
         </div>
         <div style="margin: 0.5rem">
           <div class="margin-5-0">
-            {{ `${post.avgRatings} stars` }}
+            {{ `${roundToOnePlace(post.avgRatings)} stars` }}
           </div>
           <div class="margin-5-0">{{ post.description }}</div>
           <div class="margin-5-0" style="color: blue">
@@ -48,7 +57,29 @@
             }}
           </div>
         </div>
-        <h3 style="margin: 0 10px">Comments</h3>
+        <h3 style="margin: 0 10px">Post comment</h3>
+        <div class="comment-container">
+          <input
+            v-model="ratingBox[postIndex]"
+            class="comment-star"
+            type="text"
+          />
+          <textarea
+            v-model="commentBox[postIndex]"
+            class="comment-txt-box"
+            placeholder="Comment"
+          ></textarea>
+          <button
+            @click="submitPost(post._id, postIndex)"
+            class="comment-post-btn"
+            :disabled="reviewLoading"
+          >
+            <div v-if="!reviewLoading">Post</div>
+            <div v-else>
+              <MiniLoader />
+            </div>
+          </button>
+        </div>
         <div
           class="review-box"
           v-for="(review, index) in post.reviews"
@@ -67,6 +98,14 @@
               {{ `${review.rating} stars` }}
             </div>
             <div class="margin-5-0">{{ review.comments }}</div>
+            <div v-show="myData._id === review.user._id" class="icons-card">
+              <i
+                style="cursor: pointer; color: #f75050"
+                class="far fa-trash-alt"
+                @click="delReview(review._id)"
+              ></i>
+              <!-- <i class="fas fa-pen-alt"></i> -->
+            </div>
           </div>
         </div>
       </div>
@@ -78,43 +117,63 @@
 </template>
 
 <script>
-import axios from 'axios';
+/* eslint-disable no-trailing-spaces */
 import { mapActions, mapState } from 'vuex';
 
+import MiniLoader from '../Loader/Loader.vue';
 import Loader from '../Loader/MediumLoader.vue';
+import GetUser from '../User/GetUser.vue';
 import Constant from '../../constant/Constant';
 import LocalStorage from '../../utils/localStoragePersist';
+import { findByIndex } from '../../utils/factoryFunctions';
 
 export default {
   name: 'Post',
   components: {
     Loader,
+    MiniLoader,
+    GetUser,
   },
   data() {
     return {
-      myData: {},
+      commentBox: [],
+      ratingBox: [],
     };
   },
   methods: {
-    ...mapActions({ getMyPost: 'getMyPosts' }),
+    ...mapActions({
+      getMyPost: 'getMyPosts',
+      deleteReview: 'deleteReview',
+      postReview: 'postReview',
+      getMyData: 'getMyData',
+    }),
     signOut() {
       LocalStorage.removeItemLocalStorage('token');
       this.$router.push('/signIn');
     },
+    submitPost(post, postIndex) {
+      const comments = findByIndex(this.commentBox, postIndex);
+      const ratings = findByIndex(this.ratingBox, postIndex);
+      const review = { post, rating: +ratings, comments };
+      this.postReview(review);
+    },
+    delReview(id) {
+      this.deleteReview(id);
+    },
+    roundToOnePlace(num) {
+      return +num.toFixed(1);
+    },
   },
   async created() {
-    try {
-      this.getMyPost();
-      const usr = await axios.get(`${Constant.baseUrl}user/me`);
-      this.myData = { ...usr.data.data.user };
-    } catch (err) {
-      console.log(err);
-    }
+    this.getMyPost();
+    this.getMyData();
   },
   computed: {
     ...mapState({
       load: (state) => state.post.loading,
       myPosts: (state) => state.post.posts,
+      reviewLoading: (state) => state.review.reviewLoading,
+      myData: (state) => state.user.myData,
     }),
     staticUrl() {
       return Constant.staticUrl;
@@ -214,11 +273,56 @@ export default {
   height: 340px;
 }
 
+.comment-container {
+  margin: 4px 10px;
+  display: flex;
+  align-items: center;
+
+  .comment-star {
+    width: 30px;
+    height: 50px;
+    outline: none;
+    border: 1px solid #499e97;
+  }
+
+  .comment-txt-box {
+    margin: 8px;
+    height: 50px;
+    width: 430px;
+    resize: none;
+    padding: 5px;
+    outline: none;
+    border: 1px solid #499e97;
+  }
+
+  .comment-post-btn {
+    width: 60px;
+    border: none;
+    padding: 8px;
+    background: #499e97;
+    color: #fff;
+    height: 50px;
+    outline: none;
+    cursor: pointer;
+
+    &:disabled {
+      background: gray;
+      cursor: not-allowed;
+    }
+  }
+}
+
 .review-box {
   margin: 0.5rem;
   background: #499e9721;
   padding: 0.2rem 1rem;
   width: 90%;
+  position: relative;
+
+  .icons-card {
+    transform: translateX(95%);
+    position: absolute;
+  }
 }
 
 .review-image-content {

@@ -31,6 +31,16 @@ class FetchApi {
     return postRes;
   }
 
+  async patchNoTokenApi(params) {
+    console.log(params);
+    const patchRes = await axios({
+      method: 'patch',
+      url: `${this.url}${this.endPoint}`,
+      data: params,
+    });
+    return patchRes;
+  }
+
   async patchApi(params, token) {
     const patchRes = await axios({
       method: 'patch',

@@ -48,6 +48,11 @@ const routes = [
     component: () => import(/* webpackChunkName: "Post" */ '../components/Post/Posts.vue'),
   },
   {
+    path: '/newPost',
+    name: 'NewPost',
+    component: () => import(/* webpackChunkName: "Post" */ '../components/Post/CreatePost.vue'),
+  },
+  {
     path: '/settings',
     name: 'Settings',
     component: () => import(/* webpackChunkName: "Post" */ '../components/User/Settings.vue'),
