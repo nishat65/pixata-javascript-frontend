@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div ref="post_id">
     <nav class="nav-bar">
       <router-link class="pixata-heading-link" :to="{ name: 'Posts' }">
         <div class="pixata-heading">Pixata</div>
@@ -138,6 +138,7 @@ export default {
     return {
       commentBox: [],
       ratingBox: [],
+      observer: null,
     };
   },
   methods: {
@@ -167,6 +168,9 @@ export default {
   async created() {
     this.getMyPost();
     this.getMyData();
+  },
+  mounted() {
+    console.log(this.$refs);
   },
   computed: {
     ...mapState({

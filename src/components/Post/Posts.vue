@@ -17,8 +17,8 @@
         <button @click="signOut()" class="sign-out-btn">Sign out</button>
       </div>
     </nav>
-    <div class="flex-col-center" v-if="!load">
-      <div class="card" v-for="(post,postIndex) in posts" :key="post._id">
+    <div ref="divAsTarget" class="flex-col-center" v-if="!load">
+      <div class="card" v-for="(post, postIndex) in posts" :key="post._id">
         <div class="card-image-content" style="display: flex; padding: 8px">
           <img
             :src="`${staticUrl}users/${post.user.photo}`"
@@ -50,10 +50,12 @@
         </div>
 
         <h3 style="margin: 0 10px">Post comment</h3>
-        <div
-          class="comment-container"
-        >
-          <input v-model="ratingBox[postIndex]" class="comment-star" type="text" />
+        <div class="comment-container">
+          <input
+            v-model="ratingBox[postIndex]"
+            class="comment-star"
+            type="text"
+          />
           <textarea
             v-model="commentBox[postIndex]"
             class="comment-txt-box"
@@ -103,6 +105,7 @@
     <div v-else>
       <Loader />
     </div>
+    <div v-show="!load" ref="divAsTarget" id="lastpage">Intersecting</div>
   </div>
 </template>
 
@@ -125,6 +128,8 @@ export default {
     return {
       commentBox: [],
       ratingBox: [],
+      observer: null,
+      page: 1,
     };
   },
   methods: {
@@ -150,10 +155,25 @@ export default {
     roundToOnePlace(num) {
       return +num.toFixed(1);
     },
+    handleIntersect(entries) {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          this.page += 1;
+        }
+      });
+    },
   },
   async created() {
     this.getAllPosts();
     this.getMyData();
+  },
+  mounted() {
+    const options = {
+      root: null,
+      rootMargin: '0px',
+    };
+    this.observer = new IntersectionObserver(this.handleIntersect, options);
+    this.observer.observe(this.$refs.divAsTarget);
   },
   computed: {
     ...mapState({
@@ -165,6 +185,9 @@ export default {
     staticUrl() {
       return Constant.staticUrl;
     },
+  },
+  beforeDestroy() {
+    this.observer.disconnect();
   },
 };
 </script>
@@ -229,9 +252,9 @@ export default {
     cursor: pointer;
 
     &:disabled {
-    background: gray;
-    cursor: not-allowed;
-  }
+      background: gray;
+      cursor: not-allowed;
+    }
   }
 }
 
