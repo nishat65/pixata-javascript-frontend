@@ -95,7 +95,7 @@ $font-secondary: 'Dancing Script', cursive;
 
 .wrapper {
   margin: 0px 2rem;
-  font-size: 1.1rem;
+  font-size: 2rem;
   width: 50%;
   display: flex;
   flex-direction: column;

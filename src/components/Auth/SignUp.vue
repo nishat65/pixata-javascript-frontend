@@ -5,6 +5,10 @@
       <div class="quarter-circle"></div>
       <div class="heading">
         <div class="heading-signUp">Sign Up</div>
+        <div class="text-center">
+          Already have an account?
+          <router-link to="/signIn">SIGN IN</router-link>
+        </div>
       </div>
       <div>
         <div class="form-group">
@@ -69,10 +73,6 @@
             <Loader />
           </div>
         </button>
-        <p class="text-center">
-          Already have an account?
-          <router-link to="/signIn">SIGN IN</router-link>
-        </p>
       </div>
     </form>
   </div>
@@ -165,6 +165,10 @@ $font-secondary: 'Dancing Script', cursive;
 
   .text-center {
     @include text-position(center);
+    font-size: 1.4rem;
+    margin: 1rem 0;
+    color: $color_primary;
+    font-weight: 500;
   }
 
   .flex-center {
@@ -177,12 +181,12 @@ $font-secondary: 'Dancing Script', cursive;
     .btn-submit {
       width: 20rem;
       padding: 0.5rem;
-      font-size: 1rem;
+      font-size: 1.8rem;
       margin: 0.5rem;
       border: none;
+      border-radius: 0.5rem;
       background: $color_primary;
       color: white;
-      border-radius: 1.5rem;
       cursor: pointer;
       outline: none;
 
@@ -195,23 +199,23 @@ $font-secondary: 'Dancing Script', cursive;
 
   .pixata-heading {
     @include text-position(center);
-    margin: 0.1rem;
+    margin: 0.4rem;
     font-size: 4rem;
     font-family: $font-secondary;
   }
 
   .form-container {
-    width: 22rem;
+    width: 40rem;
     padding: 1rem;
     position: relative;
-    height: 30rem;
+    height: 52rem;
     background: white;
     border-radius: 0.5rem;
     box-shadow: 3px 3px 12px 2px $gray_dark;
 
     label {
-      width: 7rem;
-      font-size: 0.9rem;
+      font-size: 1.4rem;
+      margin: 0.1rem 0;
     }
 
     input[type='text'] {
@@ -237,7 +241,7 @@ $font-secondary: 'Dancing Script', cursive;
 
     .quarter-circle {
       background: $color_primary;
-      width: 3.6rem;
+      width: 4.4rem;
       border-radius: 0.5rem;
       height: 12%;
       position: absolute;
@@ -248,7 +252,7 @@ $font-secondary: 'Dancing Script', cursive;
     }
 
     .heading {
-      margin: 0.2rem 0;
+      margin: 1rem 0;
       @include text-position(center);
 
       &-signUp {
@@ -256,13 +260,13 @@ $font-secondary: 'Dancing Script', cursive;
         @include text-position(center);
         color: $color_primary;
         font-weight: 800;
-        font-size: 2.5rem;
+        font-size: 3.6rem;
       }
     }
 
     .form-group {
-      margin: 0.5rem 0;
-      @include flexbox(row, space-between, center);
+      margin: 1rem 0;
+      @include flexbox(column, space-between, unset);
     }
   }
 }

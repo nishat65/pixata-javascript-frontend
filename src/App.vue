@@ -11,4 +11,8 @@ $font_primary: 'Raleway', sans-serif;
   font-family: $font_primary;
   box-sizing: border-box;
 }
+
+html {
+  font-size: 62.5%;
+}
 </style>

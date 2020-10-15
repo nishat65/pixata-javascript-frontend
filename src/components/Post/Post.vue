@@ -11,8 +11,8 @@
           class="nav-profile-image"
         />
         <div class="nav-profile-name">{{ myData.username }}</div>
-        <router-link style="width: 20px; color: black" to="/settings"
-          ><i class="fas fa-cog"></i
+        <router-link style="width: 2rem; color: black" to="/settings"
+          ><i style="font-size: 1.5rem" class="fas fa-cog"></i
         ></router-link>
         <button @click="signOut()" class="sign-out-btn">Sign out</button>
       </div>
@@ -230,7 +230,7 @@ $font-secondary: 'Dancing Script', cursive;
 
     .pixata-heading {
       padding: 0.8rem;
-      font-size: 2rem;
+      font-size: 3.5rem;
       font-family: $font-secondary;
     }
   }
@@ -241,8 +241,8 @@ $font-secondary: 'Dancing Script', cursive;
   }
 
   .nav-profile-image {
-    height: 30px;
-    width: 30px;
+    height: 3rem;
+    width: 3rem;
     border-radius: 50%;
   }
 
@@ -251,15 +251,16 @@ $font-secondary: 'Dancing Script', cursive;
     color: black;
     width: 25%;
     margin: 0 12px;
+    font-size: 1.7rem;
   }
 
   .sign-out-btn {
-    width: 6rem;
+    width: 10rem;
     padding: 13px;
     margin: 0 1.4rem;
     background: #268c839e;
     border: none;
-    font-size: 0.9rem;
+    font-size: 1.5rem;
     outline: none;
     color: white;
     cursor: pointer;
@@ -274,6 +275,7 @@ $font-secondary: 'Dancing Script', cursive;
     width: 600px;
     border: 1px solid #969595;
     box-shadow: 3px 2px 5px 1px #c5c5c5;
+    font-size: 1.65rem;
 
     .card-image-content {
       display: flex;

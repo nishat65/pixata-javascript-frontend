@@ -127,7 +127,7 @@ $font-secondary: 'Dancing Script', cursive;
 
     .pixata-heading {
       padding: 0.8rem;
-      font-size: 2rem;
+      font-size: 3.5rem;
       font-family: $font-secondary;
     }
   }
@@ -148,15 +148,16 @@ $font-secondary: 'Dancing Script', cursive;
     color: black;
     width: 25%;
     margin: 0 12px;
+    font-size: 1.7rem;
   }
 
   .sign-out-btn {
-    width: 6rem;
+    width: 10rem;
     padding: 13px;
     margin: 0 1.4rem;
     background: $color_primary;
     border: none;
-    font-size: 0.9rem;
+    font-size: 1.5rem;
     outline: none;
     color: white;
     cursor: pointer;
@@ -164,6 +165,7 @@ $font-secondary: 'Dancing Script', cursive;
 }
 .text-center {
   @include text-position(center);
+  font-size: 2rem;
 }
 
 .flex-center {
@@ -172,8 +174,8 @@ $font-secondary: 'Dancing Script', cursive;
   .tab-btn {
     border: none;
     margin: 10px;
-    font-size: 1.2rem;
-    padding: 12px;
+    font-size: 1.8rem;
+    padding: 1.2rem;
     background: $color_primary;
     outline: none;
     cursor: pointer;
@@ -189,6 +191,6 @@ $font-secondary: 'Dancing Script', cursive;
 
 .tab {
   border: 1px solid #ccc;
-  padding: 10px;
+  padding: 1rem;
 }
 </style>
