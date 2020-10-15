@@ -80,54 +80,69 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
+$color_primary: #268c83;
+$color_secondary: #81bcb7;
+$color_sky_blue: #499e9721;
+
+$gray_dark: #969595;
+$gray_medium: #c5c5c5;
+
+$color_white: #ffffff;
+$color_black: #000000;
+
+$font_size: 62.5%;
+$font_primary: 'Raleway', sans-serif;
+$font-secondary: 'Dancing Script', cursive;
+
+@mixin flexbox($direction, $j_cntnt, $a_items) {
+  display: flex;
+  flex-direction: $direction;
+  justify-content: $j_cntnt;
+  align-items: $a_items;
+}
+
+@mixin text-position($pos) {
+  text-align: $pos;
+}
+
 .heading {
-  text-align: center;
+  @include text-position(center);
   margin: 20px 0;
   font-size: 1rem;
   text-transform: uppercase;
 }
 
 .form {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
+  @include flexbox(column, center, center);
 
-.form-group {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 80%;
-}
-
-.txt-box {
-  margin: 8px 0;
-  padding: 5px;
-  outline: none;
-  border: 1px solid #499e97;
-  width: 100%;
-}
-
-.btn-submit {
-  padding: 10px;
-  font-size: 1rem;
-  border: none;
-  background: #268c83;
-  color: white;
-  cursor: pointer;
-  width: 60%;
-  margin: 20px 0;
-  outline: none;
-
-  &:disabled {
-    background: gray;
-    cursor: not-allowed;
+  .form-group {
+    @include flexbox(row, center, center);
+    width: 80%;
   }
 
-  // &:hover {
-  //     background: white;
-  //     color: #268c83;
-  //     border: 1px solid #268c83;
-  // }
+  .txt-box {
+    margin: 8px 0;
+    padding: 5px;
+    outline: none;
+    border: 1px solid $color_primary;
+    width: 100%;
+  }
+
+  .btn-submit {
+    padding: 10px;
+    font-size: 1rem;
+    border: none;
+    background: $color_primary;
+    color: $color_white;
+    cursor: pointer;
+    width: 60%;
+    margin: 20px 0;
+    outline: none;
+
+    &:disabled {
+      background: $gray_dark;
+      cursor: not-allowed;
+    }
+  }
 }
 </style>

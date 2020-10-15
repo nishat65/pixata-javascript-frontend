@@ -9,6 +9,11 @@ class FetchApi {
     this.static = Constant.staticUrl;
   }
 
+  async getAllPaginatedApi(page = '') {
+    const getAllRes = await axios.get(`${this.url}${this.endPoint}?page=${page}`);
+    return getAllRes;
+  }
+
   async getAllApi() {
     const getAllRes = await axios.get(`${this.url}${this.endPoint}`);
     return getAllRes;

@@ -9,7 +9,12 @@
       <div>
         <div class="form-group">
           <label for="username">Username</label>
-          <input id="username" type="text" v-model.trim.lazy="userName" placeholder="johndoe7" />
+          <input
+            id="username"
+            type="text"
+            v-model.trim.lazy="userName"
+            placeholder="johndoe7"
+          />
         </div>
         <div class="form-group">
           <label for="password">Password</label>
@@ -85,213 +90,196 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.text-center {
-  text-align: center;
+$color_primary: #268c83;
+$color_sky_blue: #499e9721;
+$gray_dark: #969595;
+$gray_medium: #c5c5c5;
+
+$camera-body: #81bcb7;
+
+$color_white: #ffffff;
+$color_black: #000000;
+
+$font_size: 62.5%;
+$font_primary: 'Raleway', sans-serif;
+$font-secondary: 'Dancing Script', cursive;
+
+@mixin flexbox($direction, $j_cntnt, $a_items) {
+  display: flex;
+  flex-direction: $direction;
+  justify-content: $j_cntnt;
+  align-items: $a_items;
 }
 
-.flex-center {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.flex-col-center {
-  display: flex;
-  align-items: center;
-  flex-direction: column;
-  justify-content: center;
-  margin: 1rem 0;
+@mixin text-position($pos) {
+  text-align: $pos;
 }
 
 .container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  // justify-content: center;
+  @include flexbox(column, center, center);
   height: 100vh;
-  background: linear-gradient(45deg, #ffffff, #c1dedc);
-}
+  background: linear-gradient(45deg, $color_white, $color_sky_blue);
 
-.pixata-heading {
-  text-align: center;
-  margin: 1rem;
-  font-size: 4rem;
-  font-family: 'Dancing Script', cursive;
-}
+  .pixata-heading {
+    @include text-position(center);
+    margin: 0.1rem;
+    font-size: 4rem;
+    font-family: $font-secondary;
+  }
 
-.forgot-password {
-  text-align: center;
-  margin: 12px;
-}
+  .form-container {
+    width: 22rem;
+    padding: 1rem;
+    position: relative;
+    height: 30rem;
+    background: $color_white;
+    border-radius: 0.5rem;
+    box-shadow: 3px 3px 12px 2px $gray_dark;
 
-.camera-body {
-  background: #81bcb7;
-  height: 120px;
-  width: 60%;
-  position: relative;
-  top: 21px;
-  left: -32px;
-  border-radius: 15px 15px 15px 15px;
-}
+    label {
+      width: 7rem;
+      font-size: 0.9rem;
+    }
 
-.camera-holder {
-  background: #268c8394;
-  width: 100px;
-  height: 110px;
-  position: absolute;
-  top: -20px;
-  transform: translateX(53px);
-  clip-path: polygon(23% 0%, 78% 0%, 100% 20%, 0 20%);
-}
+    input[type='text'] {
+      border: 1px solid $color_primary;
+      outline: none;
+      padding: 0.8rem;
+      border-radius: 1.5rem;
+    }
 
-.camera-flash {
-  background: white;
-  width: 30px;
-  height: 12px;
-  position: absolute;
-  margin: 5px 10px;
-}
+    input[type='email'] {
+      border: 1px solid $color_primary;
+      outline: none;
+      padding: 0.8rem;
+      border-radius: 1.5rem;
+    }
 
-.camera-strip {
-  background: #268c83;
-  width: 100%;
-  height: 25px;
-  border-radius: 15px 15px 0 0;
-}
+    input[type='password'] {
+      border: 1px solid $color_primary;
+      outline: none;
+      padding: 0.8rem;
+      border-radius: 1.5rem;
+    }
 
-.camera-lens {
-  border: 15px solid #268c83;
-  width: 80px;
-  height: 80px;
-  margin: 0.6rem auto;
-  border-radius: 50%;
-  background: white;
-}
+    .quarter-circle {
+      background: $color_primary;
+      width: 3.6rem;
+      border-radius: 0.5rem;
+      height: 12%;
+      position: absolute;
+      top: 0px;
+      left: 0px;
+      -webkit-clip-path: circle(78.2% at 0 0);
+      clip-path: circle(78.2% at 0 0);
+    }
 
-.quarter-circle {
-  background: #268c83;
-  width: 14%;
-  border-radius: 25%;
-  height: 12%;
-  position: absolute;
-  top: 0px;
-  left: 0px;
-  clip-path: circle(78.2% at 0 0);
-}
+    .heading {
+      margin: 0.2rem 0;
+      @include text-position(center);
 
-.flower-circle {
-  background: #268c8370;
-  height: 40vh;
-  width: 23vw;
-  border-radius: 50% 0 5% 50%;
-  position: absolute;
-  right: 0px;
-  clip-path: circle(50.6% at 99% 99%);
-  bottom: 0px;
-}
+      &-signUp {
+        font-family: $font-secondary;
+        @include text-position(center);
+        color: $color_primary;
+        font-weight: 800;
+        font-size: 2.5rem;
+      }
+    }
 
-.leaf-one {
-  background: #268c83;
-  width: 75%;
-  border-radius: 60%;
-  height: 25%;
-  position: absolute;
-  bottom: 0px;
-  -webkit-clip-path: circle(40% at 50% 100%);
-  clip-path: circle(63% at 10% 177%);
-}
+    .form-group {
+      margin: 0.5rem 0;
+      @include flexbox(row, space-evenly, center);
+    }
+  }
 
-.leaf-two {
-  background: #268c83;
-  width: 75%;
-  border-radius: 60%;
-  height: 25%;
-  position: absolute;
-  bottom: 0px;
-  right: -35px;
-  -webkit-clip-path: circle(40% at 50% 100%);
-  clip-path: circle(61% at 10% 177%);
-}
+  .text-center {
+    @include text-position(center);
+  }
 
-.heading {
-  margin: 0.8rem 0;
-  text-align: center;
+  .flex-center {
+    @include flexbox(row, center, center);
+  }
 
-  &-signUp {
-    font-family: 'Dancing Script', cursive;
+  .flex-col-center {
+    @include flexbox(column, center, center);
+
+    .btn-submit {
+      width: 20rem;
+      padding: 0.5rem;
+      font-size: 1rem;
+      margin: 0.5rem;
+      border: none;
+      background: $color_primary;
+      color: $color_white;
+      border-radius: 1.5rem;
+      cursor: pointer;
+      outline: none;
+
+      &:disabled {
+        background: gray;
+        cursor: not-allowed;
+      }
+    }
+  }
+
+  .forgot-password {
     text-align: center;
-    color: #268c83;
-    padding: 0px;
-    font-weight: 800;
-    font-size: 2.5rem;
+    margin: 12px;
   }
-}
+  .camera-body {
+    background: $camera-body;
+    width: 15rem;
+    position: relative;
+    height: 9rem;
+    top: 2.8rem;
+    left: -1rem;
+    border-radius: 0.5rem 0.5rem 0.5rem 0.5rem;
 
-.form-container {
-  width: 30%;
-  padding: 2rem;
-  position: relative;
-  background-size: cover;
-  background-position: center;
-  height: 30rem;
-  background: white;
-  border-radius: 15px;
-  box-shadow: 3px 3px 12px 2px #5a5858;
+    .camera-holder {
+      background: $camera-body;
+      width: 8rem;
+      height: 8rem;
+      position: absolute;
+      top: -1.591rem;
+      transform: translateX(3.8rem);
+      clip-path: polygon(23% 0%, 78% 0%, 100% 20%, 0 20%);
+    }
 
-  label {
-    width: 7rem;
-    font-size: 0.9rem;
-  }
+    .camera-flash {
+      background: $color_white;
+      width: 3rem;
+      height: 1rem;
+      position: absolute;
+      margin: 0.8rem 1.3rem;
+    }
 
-  input[type='text'] {
-    border: 1px solid #66bfb7;
-    outline: none;
-    padding: 8px;
-    border-radius: 15px;
-  }
+    .camera-strip {
+      background: $color_primary;
+      width: 100%;
+      height: 2.5rem;
+      border-radius: 0.5rem 0.5rem 0 0;
+    }
 
-  input[type='email'] {
-    border: 1px solid #66bfb7;
-    outline: none;
-    padding: 8px;
-    border-radius: 15px;
-  }
-
-  input[type='password'] {
-    border: 1px solid #66bfb7;
-    outline: none;
-    padding: 8px;
-    border-radius: 15px;
-  }
-}
-
-.form-group {
-  margin: 8px 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.btn-submit {
-  padding: 10px;
-  font-size: 1rem;
-  margin: 12px;
-  border: none;
-  background: #268c83;
-  color: white;
-  border-radius: 15px;
-  cursor: pointer;
-  outline: none;
-
-  &:disabled {
-    background: gray;
-    cursor: not-allowed;
+    .camera-lens {
+      border: 1rem solid $color_primary;
+      width: 6rem;
+      height: 6rem;
+      margin: 0.4rem auto;
+      border-radius: 50%;
+      background: $color_white;
+    }
   }
 
-  // &:hover {
-  //     background: white;
-  //     color: #268c83;
-  //     border: 1px solid #268c83;
-  // }
+  .quarter-circle {
+    background: $color_primary;
+    width: 14%;
+    border-radius: 25%;
+    height: 12%;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    clip-path: circle(78.2% at 0 0);
+  }
 }
 </style>

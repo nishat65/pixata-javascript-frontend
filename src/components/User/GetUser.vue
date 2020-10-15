@@ -44,6 +44,31 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
+$color_primary: #268c83;
+$color_secondary: #81bcb7;
+$color_sky_blue: #499e9721;
+
+$gray_dark: #969595;
+$gray_medium: #c5c5c5;
+
+$color_white: #ffffff;
+$color_black: #000000;
+
+$font_size: 62.5%;
+$font_primary: 'Raleway', sans-serif;
+$font-secondary: 'Dancing Script', cursive;
+
+@mixin flexbox($direction, $j_cntnt, $a_items) {
+  display: flex;
+  flex-direction: $direction;
+  justify-content: $j_cntnt;
+  align-items: $a_items;
+}
+
+@mixin text-position($pos) {
+  text-align: $pos;
+}
+
 .heading {
   margin: 20px 0px;
   text-align: center;
@@ -53,7 +78,7 @@ export default {
 
   &::after {
     content: '';
-    border-bottom: 2px solid #79b8b2;
+    border-bottom: 2px solid $color_primary;
     position: absolute;
     width: 20%;
     bottom: 0;

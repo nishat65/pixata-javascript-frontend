@@ -13,11 +13,11 @@ export const getMyPosts = async ({ commit }) => {
   }
 };
 
-export const getAllPosts = async ({ commit }) => {
+export const getAllPosts = async ({ commit }, page) => {
   commit('loading', true);
   try {
     const fetch = new FetchApi('posts/');
-    const myPost = await fetch.getAllApi();
+    const myPost = await fetch.getAllPaginatedApi(page);
     commit('getPosts', myPost.data.data.posts);
     commit('loading', false);
   } catch (error) {

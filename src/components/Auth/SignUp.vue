@@ -9,23 +9,48 @@
       <div>
         <div class="form-group">
           <label for="first-name">First Name</label>
-          <input id="first-name" type="text" v-model="firstName" placeholder="John" />
+          <input
+            id="first-name"
+            type="text"
+            v-model="firstName"
+            placeholder="John"
+          />
         </div>
         <div class="form-group">
           <label for="last-name">Last Name</label>
-          <input id="last-name" type="text" v-model="lastName" placeholder="Doe" />
+          <input
+            id="last-name"
+            type="text"
+            v-model="lastName"
+            placeholder="Doe"
+          />
         </div>
         <div class="form-group">
           <label for="username">Username</label>
-          <input id="username" type="text" v-model="userName" placeholder="johndoe7" />
+          <input
+            id="username"
+            type="text"
+            v-model="userName"
+            placeholder="johndoe7"
+          />
         </div>
         <div class="form-group">
           <label for="email">Email</label>
-          <input id="email" type="email" v-model="email" placeholder="example@com" />
+          <input
+            id="email"
+            type="email"
+            v-model="email"
+            placeholder="example@com"
+          />
         </div>
         <div class="form-group">
           <label for="password">Password</label>
-          <input id="password" type="password" v-model="password" placeholder="********" />
+          <input
+            id="password"
+            type="password"
+            v-model="password"
+            placeholder="********"
+          />
         </div>
         <div class="form-group">
           <label for="confirm-password">Confirm Password</label>
@@ -109,131 +134,136 @@ export default {
 };
 </script>
 
-<style lang="scss">
-.text-center {
-  text-align: center;
+<style lang="scss" scoped>
+$color_primary: #268c83;
+$color_sky_blue: #499e9721;
+$gray_dark: #969595;
+$gray_medium: #c5c5c5;
+
+$color_white: #ffffff;
+$color_black: #000000;
+
+$font_size: 62.5%;
+$font_primary: 'Raleway', sans-serif;
+$font-secondary: 'Dancing Script', cursive;
+
+@mixin flexbox($direction, $j_cntnt, $a_items) {
+  display: flex;
+  flex-direction: $direction;
+  justify-content: $j_cntnt;
+  align-items: $a_items;
 }
 
-.flex-center {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.flex-col-center {
-  display: flex;
-  align-items: center;
-  flex-direction: column;
-  justify-content: center;
-  margin: 1rem 0;
+@mixin text-position($pos) {
+  text-align: $pos;
 }
 
 .container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  // justify-content: center;
+  @include flexbox(column, center, center);
   height: 100vh;
-  background: linear-gradient(45deg, #ffffff, #c1dedc);
-}
+  background: linear-gradient(45deg, $color_white, $color_sky_blue);
 
-.pixata-heading {
-  text-align: center;
-  margin: 1rem;
-  font-size: 4rem;
-  font-family: 'Dancing Script', cursive;
-}
-
-.quarter-circle {
-  background: #268c83;
-  width: 14%;
-  border-radius: 25%;
-  height: 12%;
-  position: absolute;
-  top: 0px;
-  left: 0px;
-  clip-path: circle(78.2% at 0 0);
-}
-
-.heading {
-  margin: 0.8rem 0;
-  text-align: center;
-
-  &-signUp {
-    font-family: 'Dancing Script', cursive;
-    text-align: center;
-    color: #268c83;
-    padding: 0px;
-    font-weight: 800;
-    font-size: 2.5rem;
-  }
-}
-
-.form-container {
-  width: 30%;
-  padding: 2rem;
-  position: relative;
-  background-size: cover;
-  background-position: center;
-  height: 30rem;
-  background: white;
-  border-radius: 15px;
-  box-shadow: 3px 3px 12px 2px #5a5858;
-
-  label {
-    width: 7rem;
-    font-size: 0.9rem;
+  .text-center {
+    @include text-position(center);
   }
 
-  input[type='text'] {
-    border: 1px solid #66bfb7;
-    outline: none;
-    padding: 8px;
-    border-radius: 15px;
+  .flex-center {
+    @include flexbox(row, center, center);
   }
 
-  input[type='email'] {
-    border: 1px solid #66bfb7;
-    outline: none;
-    padding: 8px;
-    border-radius: 15px;
+  .flex-col-center {
+    @include flexbox(column, center, center);
+
+    .btn-submit {
+      width: 20rem;
+      padding: 0.5rem;
+      font-size: 1rem;
+      margin: 0.5rem;
+      border: none;
+      background: $color_primary;
+      color: white;
+      border-radius: 1.5rem;
+      cursor: pointer;
+      outline: none;
+
+      &:disabled {
+        background: gray;
+        cursor: not-allowed;
+      }
+    }
   }
 
-  input[type='password'] {
-    border: 1px solid #66bfb7;
-    outline: none;
-    padding: 8px;
-    border-radius: 15px;
-  }
-}
-
-.form-group {
-  margin: 8px 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.btn-submit {
-  padding: 10px;
-  font-size: 1rem;
-  margin: 12px;
-  border: none;
-  background: #268c83;
-  color: white;
-  border-radius: 15px;
-  cursor: pointer;
-  outline: none;
-
-  &:disabled {
-    background: gray;
-    cursor: not-allowed;
+  .pixata-heading {
+    @include text-position(center);
+    margin: 0.1rem;
+    font-size: 4rem;
+    font-family: $font-secondary;
   }
 
-  // &:hover {
-  //   background: white;
-  //   color: #268c83;
-  //   border: 1px solid #268c83;
-  // }
+  .form-container {
+    width: 22rem;
+    padding: 1rem;
+    position: relative;
+    height: 30rem;
+    background: white;
+    border-radius: 0.5rem;
+    box-shadow: 3px 3px 12px 2px $gray_dark;
+
+    label {
+      width: 7rem;
+      font-size: 0.9rem;
+    }
+
+    input[type='text'] {
+      border: 1px solid $color_primary;
+      outline: none;
+      padding: 0.8rem;
+      border-radius: 1.5rem;
+    }
+
+    input[type='email'] {
+      border: 1px solid $color_primary;
+      outline: none;
+      padding: 0.8rem;
+      border-radius: 1.5rem;
+    }
+
+    input[type='password'] {
+      border: 1px solid $color_primary;
+      outline: none;
+      padding: 0.8rem;
+      border-radius: 1.5rem;
+    }
+
+    .quarter-circle {
+      background: $color_primary;
+      width: 3.6rem;
+      border-radius: 0.5rem;
+      height: 12%;
+      position: absolute;
+      top: 0px;
+      left: 0px;
+      -webkit-clip-path: circle(78.2% at 0 0);
+      clip-path: circle(78.2% at 0 0);
+    }
+
+    .heading {
+      margin: 0.2rem 0;
+      @include text-position(center);
+
+      &-signUp {
+        font-family: $font-secondary;
+        @include text-position(center);
+        color: $color_primary;
+        font-weight: 800;
+        font-size: 2.5rem;
+      }
+    }
+
+    .form-group {
+      margin: 0.5rem 0;
+      @include flexbox(row, space-between, center);
+    }
+  }
 }
 </style>

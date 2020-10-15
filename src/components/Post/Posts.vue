@@ -105,7 +105,9 @@
     <div v-else>
       <Loader />
     </div>
-    <div v-show="!load" ref="divAsTarget" id="lastpage">Intersecting</div>
+    <!-- <div v-show="!load && posts.length !== 0" ref="divAsTarget" id="lastpage">
+      Intersecting
+    </div> -->
   </div>
 </template>
 
@@ -155,26 +157,28 @@ export default {
     roundToOnePlace(num) {
       return +num.toFixed(1);
     },
-    handleIntersect(entries) {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          this.page += 1;
-        }
-      });
-    },
+    // handleIntersect(entries) {
+    //   if (this.posts.length === 0) return;
+    //   entries.forEach((entry) => {
+    //     if (entry.isIntersecting) {
+    //       this.page += 1;
+    //     }
+    //   });
+    //   this.getAllPosts(this.page);
+    // },
   },
   async created() {
-    this.getAllPosts();
+    this.getAllPosts(this.page);
     this.getMyData();
   },
-  mounted() {
-    const options = {
-      root: null,
-      rootMargin: '0px',
-    };
-    this.observer = new IntersectionObserver(this.handleIntersect, options);
-    this.observer.observe(this.$refs.divAsTarget);
-  },
+  // mounted() {
+  //   const options = {
+  //     root: null,
+  //     rootMargin: '0px',
+  //   };
+  //   this.observer = new IntersectionObserver(this.handleIntersect, options);
+  //   this.observer.observe(this.$refs.divAsTarget);
+  // },
   computed: {
     ...mapState({
       load: (state) => state.post.loading,
@@ -186,16 +190,35 @@ export default {
       return Constant.staticUrl;
     },
   },
-  beforeDestroy() {
-    this.observer.disconnect();
-  },
+  // beforeDestroy() {
+  //   this.observer.unobserve(this.$refs.divAsTarget);
+  // },
 };
 </script>
 <style lang="scss" scoped>
-.flex-center {
+$color_primary: #268c83;
+$color_secondary: #81bcb7;
+$color_sky_blue: #499e9721;
+
+$gray_dark: #969595;
+$gray_medium: #c5c5c5;
+
+$color_white: #ffffff;
+$color_black: #000000;
+
+$font_size: 62.5%;
+$font_primary: 'Raleway', sans-serif;
+$font-secondary: 'Dancing Script', cursive;
+
+@mixin flexbox($direction, $j_cntnt, $a_items) {
   display: flex;
-  align-items: center;
-  justify-content: center;
+  flex-direction: $direction;
+  justify-content: $j_cntnt;
+  align-items: $a_items;
+}
+
+@mixin text-position($pos) {
+  text-align: $pos;
 }
 
 .margin-5-0 {
@@ -207,134 +230,134 @@ export default {
 }
 
 .nav-bar {
-  display: flex;
-  align-items: center;
-  border-bottom: 1px solid #ababab;
-  box-shadow: 1px 1px 1px #eee;
-}
+  @include flexbox(row, space-between, center);
+  border-bottom: 1px solid $gray_dark;
+  box-shadow: 1px 1px 1px $gray_medium;
 
-.pixata-heading {
-  padding: 0.8rem;
-  font-size: 2rem;
-  font-family: 'Dancing Script', cursive;
-}
+  .pixata-heading {
+    padding: 0.8rem;
+    font-size: 2rem;
+    font-family: $font-secondary;
+  }
 
-.comment-container {
-  margin: 4px 10px;
-  display: flex;
-  align-items: center;
+  .profile-container {
+    width: 25%;
+    @include flexbox(row, center, center);
+  }
 
-  .comment-star {
+  .nav-profile-image {
+    height: 30px;
     width: 30px;
-    height: 50px;
-    outline: none;
-    border: 1px solid #499e97;
+    border-radius: 50%;
   }
 
-  .comment-txt-box {
-    margin: 8px;
-    height: 50px;
-    width: 430px;
-    resize: none;
-    padding: 5px;
-    outline: none;
-    border: 1px solid #499e97;
+  .nav-profile-name {
+    text-decoration: none;
+    color: black;
+    width: 25%;
+    margin: 0 12px;
   }
 
-  .comment-post-btn {
-    width: 60px;
+  .sign-out-btn {
+    width: 6rem;
+    padding: 13px;
+    margin: 0 1.4rem;
+    background: $color_primary;
     border: none;
-    padding: 8px;
-    background: #499e97;
-    color: #fff;
-    height: 50px;
+    font-size: 0.9rem;
     outline: none;
+    color: white;
     cursor: pointer;
-
-    &:disabled {
-      background: gray;
-      cursor: not-allowed;
-    }
   }
-}
-
-.profile-container {
-  width: 25%;
-  display: flex;
-  align-items: center;
-}
-
-.nav-profile-image {
-  height: 30px;
-  width: 30px;
-  border-radius: 50%;
-}
-
-.nav-profile-name {
-  text-decoration: none;
-  color: black;
-  width: 25%;
-  margin: 0 12px;
-}
-
-.sign-out-btn {
-  width: 6rem;
-  padding: 13px;
-  margin: 0 1.4rem;
-  background: #268c839e;
-  border: none;
-  font-size: 0.9rem;
-  outline: none;
-  color: white;
-  cursor: pointer;
 }
 
 .flex-col-center {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
+  @include flexbox(column, center, center);
 
-.card {
-  margin: 2rem 0;
-  // height: 600px;
-  width: 600px;
-  border: 1px solid #969595;
-  box-shadow: 3px 2px 5px 1px #c5c5c5;
-}
+  .card {
+    margin: 2rem 0;
+    width: 600px;
+    border: 1px solid #969595;
+    box-shadow: 3px 2px 5px 1px #c5c5c5;
 
-.card-image-content {
-  display: flex;
-  padding: 8px;
-}
+    .card-image-content {
+      display: flex;
+      padding: 8px;
 
-.container-profile-image {
-  height: 20px;
-  width: 20px;
-  border-radius: 50%;
-}
+      .container-profile-image {
+        height: 20px;
+        width: 20px;
+        border-radius: 50%;
+      }
+    }
 
-.container-post-image {
-  padding: 8px;
-  height: 340px;
-}
+    .container-post-image {
+      padding: 8px;
+      height: 340px;
+    }
 
-.review-box {
-  margin: 0.5rem;
-  background: #499e9721;
-  padding: 0.2rem 1rem;
-  width: 90%;
-  position: relative;
+    .comment-container {
+      margin: 4px 10px;
+      @include flexbox(row, flex-start, center);
 
-  .icons-card {
-    transform: translateX(95%);
-    position: absolute;
+      .comment-star {
+        width: 30px;
+        height: 50px;
+        outline: none;
+        border: 1px solid $color_primary;
+      }
+
+      .comment-txt-box {
+        margin: 8px;
+        height: 50px;
+        width: 430px;
+        resize: none;
+        padding: 5px;
+        outline: none;
+        border: 1px solid $color_primary;
+      }
+
+      .comment-post-btn {
+        width: 60px;
+        border: none;
+        padding: 8px;
+        background: $color_primary;
+        color: #fff;
+        height: 50px;
+        outline: none;
+        cursor: pointer;
+
+        &:disabled {
+          background: gray;
+          cursor: not-allowed;
+        }
+      }
+    }
+
+    .review-box {
+      @include flexbox(column, center, self-end);
+      margin: 0.5rem;
+      background: $color_sky_blue;
+      padding: 0.2rem 1rem;
+      width: 90%;
+      position: relative;
+
+      .icons-card {
+        position: absolute;
+        right: 0;
+        transform: translateX(-0.8rem);
+      }
+
+      .flex-center {
+        @include flexbox(row, center, center);
+
+        .review-image-content {
+          height: 20px;
+          width: 20px;
+          border-radius: 50%;
+        }
+      }
+    }
   }
-}
-
-.review-image-content {
-  height: 20px;
-  width: 20px;
-  border-radius: 50%;
 }
 </style>

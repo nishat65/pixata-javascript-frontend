@@ -3,15 +3,12 @@
 </template>
 
 <style lang="scss">
+$font_primary: 'Raleway', sans-serif;
+
 * {
   padding: 0;
   margin: 0;
-  font-family: 'Raleway', sans-serif;
+  font-family: $font_primary;
   box-sizing: border-box;
-  width: 100%;
-}
-
-body {
-  height: 100%;
 }
 </style>
