@@ -111,7 +111,7 @@ $font-secondary: 'Dancing Script', cursive;
 .heading {
   @include text-position(center);
   margin: 20px 0;
-  font-size: 1rem;
+  font-size: 2rem;
   text-transform: uppercase;
 }
 
@@ -121,6 +121,7 @@ $font-secondary: 'Dancing Script', cursive;
   .form-group {
     @include flexbox(row, flex-start, center);
     width: 80%;
+    font-size: 1.5rem;
 
     &:nth-of-type(6) {
       @include flexbox(row, center, center);
@@ -137,7 +138,7 @@ $font-secondary: 'Dancing Script', cursive;
 
   .btn-submit {
     padding: 10px;
-    font-size: 1rem;
+    font-size: 1.5rem;
     border: none;
     background: $color_primary;
     color: $color_white;

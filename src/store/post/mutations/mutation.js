@@ -3,7 +3,11 @@ export const loading = (state, payload) => {
 };
 
 export const getPosts = (state, payload) => {
-  state.posts = [...payload];
+  state.posts = [...state.posts, ...payload];
+};
+
+export const getMyPosts = (state, payload) => {
+  state.myPosts = [...payload];
 };
 
 export const errorState = (state, payload) => {

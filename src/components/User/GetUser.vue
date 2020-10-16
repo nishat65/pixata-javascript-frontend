@@ -26,6 +26,11 @@
         <div class="info-box">
           <div style="margin-bottom: 5px">{{ email }}</div>
         </div>
+        <div>
+          <button @click="navigate()" class="post-btn">
+            Create a new post
+          </button>
+        </div>
       </div>
     </div>
   </div>
@@ -36,6 +41,11 @@ import Constant from '../../constant/Constant';
 export default {
   name: 'GetUser',
   props: ['firstName', 'lastName', 'userName', 'email', 'photo'],
+  methods: {
+    navigate() {
+      this.$router.push('/newPost');
+    },
+  },
   computed: {
     staticUrl() {
       return Constant.staticUrl;
@@ -100,6 +110,18 @@ $font-secondary: 'Dancing Script', cursive;
   display: flex;
   flex-direction: column;
   justify-content: center;
+
+  .post-btn {
+    width: 15rem;
+    padding: 1rem;
+    margin: 0.5rem 0rem;
+    background: $color_primary;
+    border: none;
+    font-size: 1.5rem;
+    outline: none;
+    color: white;
+    cursor: pointer;
+  }
 }
 
 .info-box {

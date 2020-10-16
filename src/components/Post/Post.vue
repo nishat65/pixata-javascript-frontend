@@ -170,12 +170,12 @@ export default {
     this.getMyData();
   },
   mounted() {
-    console.log(this.$refs);
+    //
   },
   computed: {
     ...mapState({
       load: (state) => state.post.loading,
-      myPosts: (state) => state.post.posts,
+      myPosts: (state) => state.post.myPosts,
       reviewLoading: (state) => state.review.reviewLoading,
       myData: (state) => state.user.myData,
     }),
@@ -250,13 +250,13 @@ $font-secondary: 'Dancing Script', cursive;
     text-decoration: none;
     color: black;
     width: 25%;
-    margin: 0 12px;
+    margin: 0 1.2rem;
     font-size: 1.7rem;
   }
 
   .sign-out-btn {
     width: 10rem;
-    padding: 13px;
+    padding: 1.3rem;
     margin: 0 1.4rem;
     background: #268c839e;
     border: none;
@@ -272,55 +272,55 @@ $font-secondary: 'Dancing Script', cursive;
 
   .card {
     margin: 2rem 0;
-    width: 600px;
+    width: 60rem;
     border: 1px solid #969595;
     box-shadow: 3px 2px 5px 1px #c5c5c5;
     font-size: 1.65rem;
 
     .card-image-content {
       display: flex;
-      padding: 8px;
+      padding: 0.8rem;
 
       .container-profile-image {
-        height: 20px;
-        width: 20px;
+        height: 2rem;
+        width: 2rem;
         border-radius: 50%;
       }
     }
 
     .container-post-image {
-      padding: 8px;
-      height: 340px;
+      padding: 0.8rem;
+      height: 34rem;
     }
 
     .comment-container {
-      margin: 4px 10px;
+      margin: 0.4rem 1rem;
       @include flexbox(row, flex-start, center);
 
       .comment-star {
-        width: 30px;
-        height: 50px;
+        width: 3rem;
+        height: 5rem;
         outline: none;
         border: 1px solid #499e97;
       }
 
       .comment-txt-box {
-        margin: 8px;
-        height: 50px;
-        width: 430px;
+        margin: 0.8rem;
+        height: 5rem;
+        width: 43rem;
         resize: none;
-        padding: 5px;
+        padding: 0.5rem;
         outline: none;
         border: 1px solid #499e97;
       }
 
       .comment-post-btn {
-        width: 60px;
+        width: 6rem;
         border: none;
         padding: 8px;
         background: #499e97;
         color: #fff;
-        height: 50px;
+        height: 5rem;
         outline: none;
         cursor: pointer;
 
@@ -349,8 +349,8 @@ $font-secondary: 'Dancing Script', cursive;
         @include flexbox(row, center, center);
 
         .review-image-content {
-          height: 20px;
-          width: 20px;
+          height: 2rem;
+          width: 2rem;
           border-radius: 50%;
         }
       }

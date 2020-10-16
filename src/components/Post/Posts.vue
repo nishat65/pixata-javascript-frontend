@@ -11,13 +11,13 @@
         <router-link class="nav-profile-name" :to="{ name: 'Post' }">
           <div>{{ myData.username }}</div>
         </router-link>
-        <router-link style="width: 20px; color: black" to="/settings"
-          ><i class="fas fa-cog"></i
+        <router-link style="width: 2rem; color: black" to="/settings"
+          ><i style="font-size: 1.5rem" class="fas fa-cog"></i
         ></router-link>
         <button @click="signOut()" class="sign-out-btn">Sign out</button>
       </div>
     </nav>
-    <div ref="divAsTarget" class="flex-col-center" v-if="!load">
+    <div class="flex-col-center">
       <div class="card" v-for="(post, postIndex) in posts" :key="post._id">
         <div class="card-image-content" style="display: flex; padding: 8px">
           <img
@@ -102,12 +102,12 @@
         </div>
       </div>
     </div>
-    <div v-else>
-      <Loader />
+    <div v-show="posts.length !== 0" ref="divAsTarget" id="lastpage">
+      <div v-if="load">
+        <Loader />
+      </div>
+      <div v-else></div>
     </div>
-    <!-- <div v-show="!load && posts.length !== 0" ref="divAsTarget" id="lastpage">
-      Intersecting
-    </div> -->
   </div>
 </template>
 
@@ -157,28 +157,31 @@ export default {
     roundToOnePlace(num) {
       return +num.toFixed(1);
     },
-    // handleIntersect(entries) {
-    //   if (this.posts.length === 0) return;
-    //   entries.forEach((entry) => {
-    //     if (entry.isIntersecting) {
-    //       this.page += 1;
-    //     }
-    //   });
-    //   this.getAllPosts(this.page);
-    // },
+    handleIntersect(entries) {
+      if (this.posts.length === 0) return;
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          this.page += 1;
+        }
+      });
+      this.paginationTriggers();
+    },
+    paginationTriggers() {
+      return this.pagination;
+    },
   },
-  async created() {
+  created() {
     this.getAllPosts(this.page);
     this.getMyData();
   },
-  // mounted() {
-  //   const options = {
-  //     root: null,
-  //     rootMargin: '0px',
-  //   };
-  //   this.observer = new IntersectionObserver(this.handleIntersect, options);
-  //   this.observer.observe(this.$refs.divAsTarget);
-  // },
+  mounted() {
+    const options = {
+      root: null,
+      rootMargin: '0px',
+    };
+    this.observer = new IntersectionObserver(this.handleIntersect, options);
+    this.observer.observe(this.$refs.divAsTarget);
+  },
   computed: {
     ...mapState({
       load: (state) => state.post.loading,
@@ -189,10 +192,13 @@ export default {
     staticUrl() {
       return Constant.staticUrl;
     },
+    pagination() {
+      return this.getAllPosts(this.page);
+    },
   },
-  // beforeDestroy() {
-  //   this.observer.unobserve(this.$refs.divAsTarget);
-  // },
+  beforeDestroy() {
+    this.observer.unobserve(this.$refs.divAsTarget);
+  },
 };
 </script>
 <style lang="scss" scoped>
@@ -236,7 +242,7 @@ $font-secondary: 'Dancing Script', cursive;
 
   .pixata-heading {
     padding: 0.8rem;
-    font-size: 2rem;
+    font-size: 3.5rem;
     font-family: $font-secondary;
   }
 
@@ -246,8 +252,8 @@ $font-secondary: 'Dancing Script', cursive;
   }
 
   .nav-profile-image {
-    height: 30px;
-    width: 30px;
+    height: 3rem;
+    width: 3rem;
     border-radius: 50%;
   }
 
@@ -255,16 +261,17 @@ $font-secondary: 'Dancing Script', cursive;
     text-decoration: none;
     color: black;
     width: 25%;
-    margin: 0 12px;
+    margin: 0 1.2rem;
+    font-size: 1.7rem;
   }
 
   .sign-out-btn {
-    width: 6rem;
-    padding: 13px;
+    width: 10rem;
+    padding: 1.3rem;
     margin: 0 1.4rem;
     background: $color_primary;
     border: none;
-    font-size: 0.9rem;
+    font-size: 1.5rem;
     outline: none;
     color: white;
     cursor: pointer;
@@ -276,54 +283,55 @@ $font-secondary: 'Dancing Script', cursive;
 
   .card {
     margin: 2rem 0;
-    width: 600px;
+    width: 60rem;
     border: 1px solid #969595;
     box-shadow: 3px 2px 5px 1px #c5c5c5;
+    font-size: 1.65rem;
 
     .card-image-content {
       display: flex;
-      padding: 8px;
+      padding: 0.8rem;
 
       .container-profile-image {
-        height: 20px;
-        width: 20px;
+        height: 2rem;
+        width: 2rem;
         border-radius: 50%;
       }
     }
 
     .container-post-image {
-      padding: 8px;
-      height: 340px;
+      padding: 0.8rem;
+      height: 34rem;
     }
 
     .comment-container {
-      margin: 4px 10px;
+      margin: 0.4rem 1rem;
       @include flexbox(row, flex-start, center);
 
       .comment-star {
-        width: 30px;
-        height: 50px;
+        width: 3rem;
+        height: 5rem;
         outline: none;
         border: 1px solid $color_primary;
       }
 
       .comment-txt-box {
-        margin: 8px;
-        height: 50px;
-        width: 430px;
+        margin: 0.8rem;
+        height: 5rem;
+        width: 43rem;
         resize: none;
-        padding: 5px;
+        padding: 0.5rem;
         outline: none;
         border: 1px solid $color_primary;
       }
 
       .comment-post-btn {
-        width: 60px;
+        width: 6rem;
         border: none;
-        padding: 8px;
+        padding: 0.8rem;
         background: $color_primary;
         color: #fff;
-        height: 50px;
+        height: 5rem;
         outline: none;
         cursor: pointer;
 
